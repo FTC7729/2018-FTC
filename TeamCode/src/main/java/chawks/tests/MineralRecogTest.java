@@ -7,6 +7,7 @@ import com.disnodeteam.dogecv.filters.*;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.opencv.core.Scalar;
 
@@ -14,7 +15,12 @@ import org.opencv.core.Scalar;
 // @Disabled //Comment this out to enable opmode
 public class MineralRecogTest extends LinearOpMode {
     private GenericDetector detector = null;
+    private final Scalar HSV_GOLD = new Scalar(57,68,70);
+    private final Scalar HSV_RANGE = new Scalar(5,10,10);
+    private ElapsedTime runtime = new ElapsedTime();
     public void runOpMode() {
+        telemetry.addData("Status","Initialized");
+        telemetry.update();
         detector = new GenericDetector();
         detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
 
@@ -26,10 +32,17 @@ public class MineralRecogTest extends LinearOpMode {
         detector.maxDiffrence = 15;
         detector.ratioWeight = 15;
         detector.minArea = 700;
-        detector.colorFilter = new HSVColorFilter(new Scalar(57,68,70), new Scalar(10,15,15));
+        detector.colorFilter = new HSVColorFilter(HSV_GOLD,HSV_RANGE);
         detector.enable();
+        waitForStart();
         while(opModeIsActive()) {
-
+            telemetry.addData("Runtime",runtime.toString());
+            if(detector.getFound()) {
+                telemetry.addData("Status","Gold Found");
+            } else {
+                telemetry.addData("Status","Searching...");
+            }
+            telemetry.update();
         }
     }
     public void end() {
