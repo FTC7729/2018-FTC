@@ -15,9 +15,20 @@ import org.opencv.core.Scalar;
 // @Disabled //Comment this out to enable opmode
 public class MineralRecogTest extends LinearOpMode {
     private GenericDetector detector = null;
+    /**
+     * Currently unused Scalar value for Gold
+     */
     private final Scalar HSV_GOLD = new Scalar(26,226,255); // 0 - 255 scale
+    /**
+     * Currently unused Scalar value for threshold range
+     */
     private final Scalar HSV_RANGE = new Scalar(5,10,10);
     private ElapsedTime runtime = new ElapsedTime();
+
+    /**
+     * Runs when opmode is initialized.
+     * Use method "waitForStart()" to create a separator between init code and run code.
+     */
     public void runOpMode() {
         telemetry.addData("Status","Initialized");
         telemetry.update();
