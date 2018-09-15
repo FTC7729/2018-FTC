@@ -15,7 +15,7 @@ import org.opencv.core.Scalar;
 // @Disabled //Comment this out to enable opmode
 public class MineralRecogTest extends LinearOpMode {
     private GenericDetector detector = null;
-    private final Scalar HSV_GOLD = new Scalar(57,68,70);
+    private final Scalar HSV_GOLD = new Scalar(26,226,255); // 0 - 255 scale
     private final Scalar HSV_RANGE = new Scalar(5,10,10);
     private ElapsedTime runtime = new ElapsedTime();
     public void runOpMode() {
@@ -32,7 +32,7 @@ public class MineralRecogTest extends LinearOpMode {
         detector.maxDiffrence = 15;
         detector.ratioWeight = 15;
         detector.minArea = 700;
-        detector.colorFilter = new HSVColorFilter(HSV_GOLD,HSV_RANGE);
+        detector.colorFilter = new LeviColorFilter(LeviColorFilter.ColorPreset.YELLOW);
         detector.enable();
         waitForStart();
         while(opModeIsActive()) {
@@ -45,6 +45,7 @@ public class MineralRecogTest extends LinearOpMode {
             telemetry.update();
         }
     }
+
     public void end() {
         detector.disable();
     }
